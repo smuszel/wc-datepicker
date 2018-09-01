@@ -1,0 +1,35 @@
+{
+    "name": "wc-datepicker",
+    "version": "0.0.1",
+    "description": "Web component based datepicker with simple api",
+    "main": "index.js",
+    "dependencies": {
+        "date-fns": "1.29.0"
+    },
+    "devDependencies": {
+        "node-sass": "4.9.3",
+        "tape": "4.9.1",
+        "ts-lint": "4.5.1",
+        "typescript": "3.0.3",
+        "concurrently": "4.0.1"
+    },
+    "scripts": {
+        "test": "npx tape ./test/*.js",
+        "start": "concurrently \"npx tsc -w\" \"npx node-sass ./src/index.scss -w -o dist\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/smuszel/wc-datepicker.git"
+    },
+    "keywords": [
+        "datepicker",
+        "date",
+        "web-components"
+    ],
+    "author": "Stanislaw Muszel",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/smuszel/wc-datepicker/issues"
+    },
+    "homepage": "https://github.com/smuszel/wc-datepicker#readme"
+}
