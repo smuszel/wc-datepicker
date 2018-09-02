@@ -1,15 +1,26 @@
 {
-    "compileOnSave": true,
     "compilerOptions": {
-        "module": "es6",
-        "moduleResolution": "node",
-        "baseUrl": "./src",
-        "target": "es2018",
+        "allowSyntheticDefaultImports": true,
+        "allowUnreachableCode": false,
+        "declaration": false,
         "experimentalDecorators": true,
-        "lib": ["es2018", "dom"],
-        "sourceMap": false,
-        "pretty": true,
-        "outDir": "./dist"
+        "lib": [
+            "dom",
+            "es2018"
+        ],
+        "moduleResolution": "node",
+        "module": "es2015",
+        "target": "es2017",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "jsx": "react",
+        "jsxFactory": "h"
     },
-    "include": ["./src/**/*"]
+    "include": [
+        "src",
+        "types/jsx.d.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

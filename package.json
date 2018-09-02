@@ -1,35 +1,48 @@
 {
     "name": "wc-datepicker",
     "version": "0.0.1",
-    "description": "Web component based datepicker with simple api",
-    "main": "index.js",
+    "description": "Simple datepicker written in Stencil",
+    "module": "dist/esm/index.js",
+    "main": "dist/index.js",
+    "types": "dist/types/components.d.ts",
+    "collection": "dist/collection/collection-manifest.json",
+    "files": [
+        "dist/"
+    ],
+    "scripts": {
+        "build": "stencil build",
+        "start": "stencil build --dev --watch --serve",
+        "test": "jest"
+    },
     "dependencies": {
         "date-fns": "1.29.0"
     },
     "devDependencies": {
-        "node-sass": "4.9.3",
-        "tape": "4.9.1",
-        "ts-lint": "4.5.1",
-        "typescript": "3.0.3",
-        "concurrently": "4.0.1"
-    },
-    "scripts": {
-        "test": "npx tape ./test/*.js",
-        "start": "concurrently \"npx tsc -w\" \"npx node-sass ./src/index.scss -w -o dist\""
+        "@stencil/core": "^0.12.4",
+        "@stencil/sass": "^0.1.0",
+        "@types/jest": "^23.3.1",
+        "jest": "^23.5.0",
+        "stencil": "0.0.5",
+        "ts-lint": "4.5.1"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/smuszel/wc-datepicker.git"
     },
-    "keywords": [
-        "datepicker",
-        "date",
-        "web-components"
-    ],
     "author": "Stanislaw Muszel",
     "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/smuszel/wc-datepicker/issues"
-    },
-    "homepage": "https://github.com/smuszel/wc-datepicker#readme"
+    "homepage": "https://github.com/smuszel/wc-datepicker",
+    "jest": {
+        "transform": {
+            "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/@stencil/core/testing/jest.preprocessor.js"
+        },
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "json",
+            "jsx"
+        ]
+    }
 }
