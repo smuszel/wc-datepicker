@@ -7,15 +7,18 @@
         "date-fns": "1.29.0"
     },
     "devDependencies": {
+        "babel": "^6.23.0",
+        "babel-plugin-transform-custom-element-classes": "^0.1.0",
         "node-sass": "4.9.3",
+        "parcel": "1.9.7",
         "tape": "4.9.1",
         "ts-lint": "4.5.1",
-        "typescript": "3.0.3",
-        "concurrently": "4.0.1"
+        "tslint": "^5.11.0",
+        "typescript": "3.0.3"
     },
     "scripts": {
-        "test": "npx tape ./test/*.js",
-        "start": "concurrently \"npx tsc -w\" \"npx node-sass ./src/index.scss -w -o dist\""
+        "test": "tape ./test/*.js",
+        "start": "parcel serve ./src/index.html --no-hmr -p 5000"
     },
     "repository": {
         "type": "git",
