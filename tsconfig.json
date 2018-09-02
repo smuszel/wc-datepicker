@@ -1,6 +1,7 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
+        "module": "es6",
         "moduleResolution": "node",
         "baseUrl": "./src",
         "target": "es2018",
@@ -8,7 +9,7 @@
         "lib": ["es2018", "dom"],
         "sourceMap": false,
         "pretty": true,
-        "outFile": "./dist/main.js"
+        "outDir": "./dist"
     },
     "include": ["./src/**/*"]
 }
