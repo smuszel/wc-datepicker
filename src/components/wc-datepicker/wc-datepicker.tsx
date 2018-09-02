@@ -7,13 +7,13 @@ import { Component, Prop } from '@stencil/core';
 })
 export class WcDatepicker {
     
-    @Prop() first: string;
-    @Prop() last: string;
+    @Prop({ reflectToAttr: true, mutable: true })
+    value: string = new Date().toISOString();
     
     render() {
         return (
             <div>
-                Hello, World! I'm {this.first} {this.last}
+                Abc {this.value}
             </div>
         );
     }

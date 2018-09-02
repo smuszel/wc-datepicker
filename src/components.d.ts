@@ -12,12 +12,10 @@ import '@stencil/core';
 export namespace Components {
 
   interface WcDatepicker {
-    'first': string;
-    'last': string;
+    'value': string;
   }
   interface WcDatepickerAttributes extends StencilHTMLAttributes {
-    'first'?: string;
-    'last'?: string;
+    'value'?: string;
   }
 }
 

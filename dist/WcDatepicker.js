@@ -1,6 +1,6 @@
 /*!
  * Built with http://stenciljs.com
- * 2018-08-02T06:31:28
+ * 2018-08-02T07:41:12
  */
 (function(win, doc, namespace, fsNamespace, resourcesUrl, appCore, appCoreSsr, appCorePolyfilled, hydratedCssClass, components) {
 
@@ -135,4 +135,4 @@ function createComponentOnReadyPrototype(win, namespace, HTMLElementPrototype) {
 
   init(win, doc, namespace, fsNamespace, resourcesUrl, appCore, appCoreSsr, appCorePolyfilled, hydratedCssClass, components);
 
-  })(window, document, "wcdatepicker","wcdatepicker",0,"wcdatepicker.core.js","es5-build-disabled.js","hydrated",[["wc-datepicker","wc-datepicker",1,[["first",1,0,1,2],["last",1,0,1,2]],1]],HTMLElement.prototype);
+  })(window, document, "wcdatepicker","wcdatepicker",0,"wcdatepicker.core.js","es5-build-disabled.js","hydrated",[["wc-datepicker","wc-datepicker",1,[["value",2,1,1,2]],1]],HTMLElement.prototype);
