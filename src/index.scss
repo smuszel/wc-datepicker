@@ -2,33 +2,34 @@ body {
     margin: 60px;
 }
 
-%callendar-body {
+.calendar-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.days-container {
+    width: 100%;
+    padding: 10px 10px 20px 10px;
+    
     display: grid;
-    padding-left: 10px;
-    padding-right: 10px;
-    grid-gap: 10px;
-    grid-template-rows: 20px repeat(6, 15px) 50px;
+    grid-gap: 5px;
+    grid-template-rows: 20px repeat(6, 15px);
     grid-template-columns: repeat(7, auto);
-    grid-template-areas: 
-        "prev prev . . . next next"
-        "d0 d1 d2 d3 d4 d5 d6"
-        "d7 d8 d9 d10 d11 d12 d13"
-        "d14 d15 d16 d17 d18 d19 d20"
-        "d21 d22 d23 d24 d25 d26 d27"
-        "d28 d29 d30 d31 d32 d33 d34"
-        "d35 d36 d37 d38 d39 d40 d41"
-        "cancel cancel cancel . save save save"
+}
+
+.day {
+    cursor: pointer;
+
+    &[selected] {
+        background: green;
+        border-radius: 100%;
+    }
 }
 
 wc-datepicker {
     display: block;
     width: 200px;
-
-    &:focus-within, &:focus {
-        .callendar-body {
-            @extend %callendar-body
-        }
-    }
     
     .launcher {
         height: 40px;
@@ -36,34 +37,14 @@ wc-datepicker {
         border: 1px solid #000;
     }
 
-    .callendar-body {
-        @extend %callendar-body
+    &:not([opened]) {
+        .calendar-body {
+            display: none;
+        }
     }
 }
 
-.previous-month {
-    grid-area: prev;
-}
-
-.next-month {
-    grid-area: next;
-}
-
-.cancel {
-    grid-area: cancel;
-}
-
-.save {
-    grid-area: save;
-}
-
-.day {
+.day, .day-of-week {
     display: flex;
     justify-content: center;
-}
-
-@for $i from 0 through 41 {
-    .day-#{$i} {
-        grid-area: d#{$i};
-    }
 }
