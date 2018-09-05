@@ -1,4 +1,4 @@
-import { addMonths } from 'date-fns'; 
+import { addMonths, format } from 'date-fns'; 
 import { generateDatesForDaysInMonth } from './helpers';
 
 const dayNames = [
@@ -47,6 +47,7 @@ export class WcDatepicker extends HTMLElement {
     save: HTMLButtonElement;
     cancel: HTMLButtonElement;
 
+    valueFormat = 'DD.MM.YYYY'
     daysOnSigleDisplay = 42;
     minimumWeeks = 6;
     clickLog: string[] = [];
@@ -67,13 +68,15 @@ export class WcDatepicker extends HTMLElement {
 
         switch (lst[0]) {
             case cssClasses.previousMonth:
-                this.monthOffset--; this.initDisplay(); break
+                this.monthOffset--; this.initDisplay(); this.evaluateActiveDays(); break
             case cssClasses.nextMonth:
-                this.monthOffset++; this.initDisplay(); break
+                this.monthOffset++; this.initDisplay(); this.evaluateActiveDays(); break
             case cssClasses.cancel:
                 this.opened = false; break
             case cssClasses.save:
-                this.value = new Date(this.valueNotSaved); break
+                this.value = this.valueNotSaved;
+                this.opened = false;
+                break
             case 'day':
                 this.valueNotSaved = tgt.date; break
             default: return;
@@ -86,29 +89,30 @@ export class WcDatepicker extends HTMLElement {
                 if (!oldV && newV) {
                     this.monthOffset = 0;
                     this.initDisplay();
+                    this.evaluateActiveDays();
                 } break;
             case attributes.valueNotSaved:
-                this.evaluateActiveDays(oldV, newV);
+                this.evaluateActiveDays(newV);
                 break;
             default: return;
         }
     }
 
     initDisplay() {
-        const valueNotSaved = this.valueNotSaved;
         this.daysForCurrentContext.forEach((jsday, ix) => {
             const d = this.days[ix];
-            d.removeAttribute(childAttributes.selected);
             d.date = jsday.toISOString();
-            d.date === valueNotSaved && d.setAttribute(childAttributes.selected, 'true');
             d.innerText = `${jsday.getDate()}`;
         });
     }
 
-    evaluateActiveDays(oldV, newV) {
+    evaluateActiveDays(activeISODate = this.valueNotSaved) {
         this.days.forEach((htmlday) => {
-            htmlday.date === oldV && htmlday.removeAttribute(childAttributes.selected);
-            htmlday.date === newV && htmlday.setAttribute(childAttributes.selected, 'true');
+            htmlday.removeAttribute(childAttributes.selected);
+
+            if (htmlday.date === activeISODate) {
+                htmlday.setAttribute(childAttributes.selected, 'true');
+            }
         })
     }
 
@@ -130,9 +134,9 @@ export class WcDatepicker extends HTMLElement {
             const launcherTargeted = ev.target === this.launcher;
 
             if (launcherTargeted && closed) {
-                this.setAttribute(attributes.opened, 'true');
+                this.opened = true;
             } else if (outside && opened) {
-                this.removeAttribute(attributes.opened);
+                this.opened = false;
             }
         }
 
@@ -221,13 +225,15 @@ export class WcDatepicker extends HTMLElement {
     }
 
     set value(v) {
-        this.setAttribute(attributes.value, v.toISOString());
+        this.launcher.innerText = format(v, this.valueFormat);
+        this.valueNotSaved = v;
+        this.setAttribute(attributes.value, v);
     }
 
     get value() {
         const v = this.getAttribute(attributes.value);
 
-        return new Date(v || new Date())
+        return v || new Date().toISOString();
     }
 
     get monthContext() {
