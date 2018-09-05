@@ -1,4 +1,4 @@
-import { startOfMonth, addDays } from 'date-fns';
+import { startOfMonth, addDays, differenceInMonths } from 'date-fns';
 /* tslint:disable */
 
 export const generateDatesForDaysInMonth = (d: Date, minimumWeeks: number) => {
@@ -8,4 +8,13 @@ export const generateDatesForDaysInMonth = (d: Date, minimumWeeks: number) => {
     const resDates = range.map((_, ix) => addDays(start, ix));
 
     return resDates;
+}
+
+export const monthsFromNow = date => {
+    if (!date) {
+        return 0;
+    } else {
+        return 0
+        // return differenceInMonths(new Date(), date);
+    }
 }
