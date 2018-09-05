@@ -1,5 +1,5 @@
-import { addMonths, format, differenceInCalendarMonths } from 'date-fns'; 
-import { generateDatesForDaysInMonth, monthsFromNow } from './helpers';
+import { format } from 'date-fns'; 
+import { generateDatesForDaysInMonth, previousMonth, nextMonth } from './helpers';
 
 const dayNames = [
     'Su',
@@ -24,6 +24,7 @@ const cssClasses = {
 const attributes = {
     opened: 'opened',
     value: 'value',
+    monthContext: 'month-context',
     valueNotSaved: 'value-not-saved'
 }
 
@@ -50,7 +51,6 @@ export class WcDatepicker extends HTMLElement {
     valueFormat = 'DD.MM.YYYY'
     daysOnSigleDisplay = 42;
     minimumWeeks = 6;
-    _monthOffset = 0;
     dispose: () => void;
     
     constructor() {
@@ -67,22 +67,28 @@ export class WcDatepicker extends HTMLElement {
 
         switch (lst[0]) {
             case cssClasses.previousMonth:
-                this.monthOffset--; break
+                this.monthContext = previousMonth(this.monthContext);
+                break;
             case cssClasses.nextMonth:
-                this.monthOffset++; break
+                this.monthContext = nextMonth(this.monthContext);
+                break;
             case cssClasses.cancel:
-                this.opened = false; break
+                this.opened = false;
+                break;
             case cssClasses.save:
                 this.value = this.valueNotSaved;
                 this.opened = false;
-                break
+                break;
             case 'day':
-                this.valueNotSaved = tgt.date; break
+                this.valueNotSaved = tgt.date;
+                break;
             default: return;
         }
     }
 
-    refreshDaysDisplay(jsDays: Date[], htmlDays: HTMLDayElement [], targetedDate: string) {
+    refreshDisplay(monthContext: string, htmlDays: HTMLDayElement[], selectedDate: string) {
+        const jsDays = generateDatesForDaysInMonth(monthContext, htmlDays.length);
+
         const evaluatePossesedDate = (jsday, ix) => {
                 const d = htmlDays[ix];
                 d.date = jsday.toISOString();
@@ -92,7 +98,7 @@ export class WcDatepicker extends HTMLElement {
         const evaluateSelectedState = htmlday => {
             htmlday.removeAttribute(childAttributes.selected);
 
-            if (htmlday.date === targetedDate) {
+            if (htmlday.date === selectedDate) {
                 htmlday.setAttribute(childAttributes.selected, 'true');
             }
         }
@@ -117,7 +123,6 @@ export class WcDatepicker extends HTMLElement {
         }
 
         document.addEventListener('focusin', helper)
-        document.addEventListener('focusin', console.log)
 
         return () => document.removeEventListener('focusin', helper);
     }
@@ -180,28 +185,18 @@ export class WcDatepicker extends HTMLElement {
         append();
         misc();
     }
-
-    get monthOffset() {
-        return this._monthOffset;
-    }
-
-    set monthOffset(v) {
-        this._monthOffset = v;
-        const d = this.valueNotSaved || this.value;
-
-        this.refreshDaysDisplay(this.daysForCurrentContext, this.days, d);
-    }
     
     set opened(v) {
         const fromClosedToOpened = !this.opened && v;
         const fromOpenedToClosed = this.opened && !v;
 
         if (fromClosedToOpened) {
-            this.monthOffset = monthsFromNow(this.value);
-            this.refreshDaysDisplay(this.daysForCurrentContext, this.days, this.value);
+            this.monthContext = this.value;
+            this.refreshDisplay(this.monthContext, this.days, this.value);
 
             this.setAttribute(attributes.opened, 'true');
         } else if (fromOpenedToClosed) {
+            this.monthContext = '';
             this.valueNotSaved = '';
             this.removeAttribute(attributes.opened)            
         }
@@ -215,7 +210,7 @@ export class WcDatepicker extends HTMLElement {
         if (v === '') {
             this.removeAttribute(this.valueNotSaved);
         } else {
-            this.refreshDaysDisplay(this.daysForCurrentContext, this.days, v);
+            this.refreshDisplay(this.monthContext, this.days, v);
     
             this.setAttribute(attributes.valueNotSaved, v);
         }
@@ -239,13 +234,26 @@ export class WcDatepicker extends HTMLElement {
         return v || new Date().toISOString();
     }
 
-    get monthContext() {
-        const d = this.value || new Date();
-
-        return addMonths(d, this.monthOffset || 0);
+    set monthContext(v) {
+        if (v) {
+            const d = this.valueNotSaved || this.value;
+            this.refreshDisplay(v, this.days, d);
+            this.setAttribute(attributes.monthContext, v);
+        } else {
+            this.removeAttribute(attributes.monthContext);
+        }
     }
 
-    get daysForCurrentContext() {
-        return generateDatesForDaysInMonth(this.monthContext, this.minimumWeeks); 
+    get monthContext() {
+        const ctx = this.getAttribute(attributes.monthContext);
+
+        if (!ctx) {
+            const todayInISO = new Date().toISOString();
+            this.monthContext = todayInISO;
+
+            return todayInISO;
+        } else {
+            return ctx;
+        }
     }
 }
