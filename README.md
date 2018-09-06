@@ -1,4 +1,4 @@
-### (Demo)[https://smuszel.github.io/wc-datepicker/] 
+### [Demo](https://smuszel.github.io/wc-datepicker/)
 
 ### Motivation
 
