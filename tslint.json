@@ -10,7 +10,6 @@
         "no-consecutive-blank-lines": false,
         "eofline": false,
         "no-magic-numbers": [true, 0, -1, 1, 2, 7],
-        "no-parameter-reassignment": true,
         "curly": true,
         "no-arg": true,
         "no-conditional-assignment": true,

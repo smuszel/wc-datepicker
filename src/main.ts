@@ -1,4 +1,4 @@
-import { WcDatepicker } from './WcDatepicker';
+import { WcDatepicker } from './wc-datepicker';
 import './index.scss';
 
-customElements.define('wc-datepicker', WcDatepicker)
+customElements.define('wc-datepicker', WcDatepicker);
