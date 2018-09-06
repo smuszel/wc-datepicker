@@ -1,5 +1,4 @@
 $blue: #8ab9e6;
-$green: #8ae6b8;
 $gray: #bfbfbf;
 
 body {
@@ -13,7 +12,7 @@ wc-datepicker {
 
     &:not([opened]) {
         .calendar-body {
-            display: none;
+            opacity: 0;
         }
     }
 }
@@ -25,6 +24,7 @@ wc-datepicker {
 }
 
 .calendar-body {
+    transition: 300ms;
     width: 300px;
     border-radius: 2px;
     border: none;
@@ -35,19 +35,6 @@ wc-datepicker {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-}
-
-.save {
-    width: 100%;
-    height: 40px;
-    font-weight: 500;
-    cursor: pointer;
-    text-transform: capitalize;
-    font-size: 18px;
-    border-radius: 2px;
-    border: none;
-    background-color: $green;
-    color: #fff;
 }
 
 .context-display {
@@ -91,7 +78,7 @@ wc-datepicker {
     width: 100%;
     display: grid;
     grid-gap: 10px;
-    padding: 0 15px 10px 15px;
+    padding: 0 15px 5px 15px;
     grid-template-rows: repeat(7, 30px);
     grid-template-columns: repeat(7, 30px);
 }
@@ -107,7 +94,7 @@ wc-datepicker {
 }
 
 .day {
-    transition: 200ms;
+    transition: none;
     font-size: 14px;
     cursor: pointer;
     display: flex;
@@ -121,6 +108,7 @@ wc-datepicker {
 
     &:hover {
         background: lighten($blue, 23%);
+        transition: 250ms;
     }
 
     &[selected] {

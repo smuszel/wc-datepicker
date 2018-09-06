@@ -18,7 +18,6 @@ const cssClasses = {
     contextDisplay: 'context-display',
     previousMonth: 'previous-month',
     daysContainer: 'days-container',
-    save: 'save'
 }
 
 const attributes = {
@@ -79,12 +78,9 @@ export class WcDatepicker extends HTMLElement {
             case cssClasses.nextMonth:
                 this.monthContext = nextMonth(this.monthContext);
                 break;
-            case cssClasses.save:
-                this.value = this.valueNotSaved;
-                this.opened = false;
-                break;
             case 'day':
-                this.valueNotSaved = tgt.date;
+                this.value = tgt.date;
+                this.opened = false;
                 break;
             default: return;
         }
@@ -94,7 +90,7 @@ export class WcDatepicker extends HTMLElement {
         setTimeout(
             this._refreshDisplay(
                 this.monthContext,
-                this.valueNotSaved || this.value || new Date().toISOString(),
+                this.value || new Date().toISOString(),
                 this.days,
                 this.contextDisplay
             ), 0
@@ -179,7 +175,6 @@ export class WcDatepicker extends HTMLElement {
             this.calendarBody.appendChild(this.contextDisplay);
             this.calendarBody.appendChild(this.nextMonth);
             this.calendarBody.appendChild(this.daysContainer);
-            this.calendarBody.appendChild(this.save);
 
             this.appendChild(this.launcher);
             this.appendChild(this.calendarBody)
@@ -218,12 +213,9 @@ export class WcDatepicker extends HTMLElement {
 
         if (fromClosedToOpened) {
             this.monthContext = this.value;
-            this.refreshDisplay();
-
             this.setAttribute(attributes.opened, 'true');
         } else if (fromOpenedToClosed) {
             this.monthContext = '';
-            this.valueNotSaved = '';
             this.removeAttribute(attributes.opened)            
         }
     }
@@ -232,23 +224,10 @@ export class WcDatepicker extends HTMLElement {
         return !!this.getAttribute(attributes.opened);
     }
 
-    set valueNotSaved(v) {
-        if (v === '') {
-            this.removeAttribute(this.valueNotSaved);
-        } else {
-            this.setAttribute(attributes.valueNotSaved, v);
-            this.refreshDisplay();
-        }
-    }
-
-    get valueNotSaved() {
-        return this.getAttribute(attributes.valueNotSaved);
-    }
-
     set value(v) {
         this.launcher.value = format(v, this.defaultValueFormat);
-        this.valueNotSaved = v;
         this.setAttribute(attributes.value, v);
+        this.refreshDisplay();
     }
 
     get value() {
