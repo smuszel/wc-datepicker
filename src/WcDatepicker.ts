@@ -1,4 +1,4 @@
-import { format } from 'date-fns'; 
+import { format, isSameMonth, isSameDay } from 'date-fns'; 
 import { generateDatesForDaysInMonth, previousMonth, nextMonth } from './helpers';
 
 const dayNames = [
@@ -30,6 +30,7 @@ const attributes = {
 
 const childAttributes = {
     selected: 'selected',
+    distant: 'distant'
 }
 
 interface HTMLDayElement extends HTMLSpanElement {
@@ -106,17 +107,27 @@ export class WcDatepicker extends HTMLElement {
         htmlDays: HTMLDayElement[],
         contextDisplay: HTMLContextDisplayElement
     ) {
-        const jsDays = generateDatesForDaysInMonth(monthContext, htmlDays.length);
-        const dayPairs = jsDays.map((jsday, ix) => [jsday, htmlDays[ix]]);
+        const jsDates = generateDatesForDaysInMonth(monthContext, htmlDays.length);
+        const dayPairs = jsDates.map((jsDate, ix) => [jsDate, htmlDays[ix]]);
 
         const refreshDay = ([date, day]) => {
+            const distant = !isSameMonth(date, monthContext);
+            const selected = isSameDay(date, selectedDate);
+
+            if (selected) {
+                day.setAttribute(childAttributes.selected, 'true');
+            } else {
+                day.removeAttribute(childAttributes.selected);
+            }
+            
+            if (distant) {
+                day.setAttribute(childAttributes.distant, 'true')
+            } else {
+                day.removeAttribute(childAttributes.distant);
+            }
+
             day.date = date.toISOString();
             day.innerText = date.getDate();
-            day.removeAttribute(childAttributes.selected);
-
-            if (day.date === selectedDate) {
-                day.setAttribute(childAttributes.selected, 'true');
-            }
         }
 
         dayPairs.forEach(refreshDay);
@@ -202,7 +213,6 @@ export class WcDatepicker extends HTMLElement {
     }
     
     set opened(v) {
-        debugger
         const fromClosedToOpened = !this.opened && v;
         const fromOpenedToClosed = this.opened && !v;
 

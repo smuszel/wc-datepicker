@@ -115,6 +115,10 @@ wc-datepicker {
     align-items: center;
     border-radius: 100%;
 
+    &[distant] {
+        color: lighten($gray, 15%);
+    }
+
     &:hover {
         background: lighten($blue, 23%);
     }
