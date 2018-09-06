@@ -1,41 +1,15 @@
+$blue: #8ab9e6;
+$green: #8ae6b8;
+$gray: #bfbfbf;
+
 body {
     margin: 60px;
-}
-
-.calendar-body {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.days-container {
-    width: 100%;
-    padding: 10px 10px 20px 10px;
-    
-    display: grid;
-    grid-gap: 5px;
-    grid-template-rows: 20px repeat(6, 15px);
-    grid-template-columns: repeat(7, auto);
-}
-
-.day {
-    cursor: pointer;
-
-    &[selected] {
-        background: green;
-        border-radius: 100%;
-    }
+    font-family: Roboto;
 }
 
 wc-datepicker {
-    display: block;
-    width: 200px;
-    
-    .launcher {
-        height: 40px;
-        background-color: #def;
-        border: 1px solid #000;
-    }
+    width: 300px;
+    position: relative;
 
     &:not([opened]) {
         .calendar-body {
@@ -44,7 +18,109 @@ wc-datepicker {
     }
 }
 
-.day, .day-of-week {
+.launcher {
+    height: 30px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+.calendar-body {
+    width: 300px;
+    border-radius: 2px;
+    border: none;
+    box-shadow: 0 0 5px 1px #b2dbea;
+    position: absolute;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.save {
+    width: 100%;
+    height: 40px;
+    font-weight: 500;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-size: 18px;
+    border-radius: 2px;
+    border: none;
+    background-color: $green;
+    color: #fff;
+}
+
+.context-display {
     display: flex;
     justify-content: center;
+    align-items: center;
+    cursor: default;
+    height: 60px;
+
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.next-month {
+    cursor: pointer;
+    margin-right: 20px;
+    width: 0;
+    height: 0;
+    padding: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 13px solid $gray;
+    border-right: none;
+    background: transparent;
+}
+
+.previous-month {
+    cursor: pointer;
+    margin-left: 20px;
+    width: 0;
+    height: 0;
+    padding: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-right: 13px solid $gray;
+    border-left: none;
+    background: transparent;
+}
+
+.days-container {
+    width: 100%;
+    display: grid;
+    grid-gap: 10px;
+    padding: 0 15px 10px 15px;
+    grid-template-rows: repeat(7, 30px);
+    grid-template-columns: repeat(7, 30px);
+}
+
+.day-of-week {
+    font-size: 14px;
+    cursor: default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    color: $gray;
+}
+
+.day {
+    transition: 200ms;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+
+    &:hover {
+        background: lighten($blue, 23%);
+    }
+
+    &[selected] {
+        background: $blue;
+        color: #fff;
+    }
 }
