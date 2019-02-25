@@ -35,39 +35,24 @@ const childAttributes = {
     disabled: 'disabled'
 }
 
-interface HTMLDayElement extends HTMLSpanElement {
-    date: string
-}
-
 export class WcDatepicker extends HTMLElement {
-
-    launcher: HTMLDivElement;
-    calendarBody: HTMLDivElement;
-    previousMonth: HTMLButtonElement;
-    nextMonth: HTMLButtonElement;
-    contextDisplay: HTMLSpanElement;
-    daysContainer: HTMLDivElement;
-    daysOfWeek: HTMLSpanElement[];
-    days: HTMLDayElement[];
-    save: HTMLButtonElement;
-
-    options = {
-        contextFormat: 'MMMM YYYY',
-        valueFormat: 'DD.MM.YYYY',
-        isDateDisabled: date => false,
-        defaultMonthContext: new Date().toISOString()
-    }
-
-    daysOnSigleDisplay = 42;
-    minimumWeeks = 6;
-    disposeExternalListeners: () => void;
     
     constructor() {
         super();
+
+        this.options = {
+            contextFormat: 'MMMM YYYY',
+            valueFormat: 'DD.MM.YYYY',
+            isDateDisabled: date => false,
+            defaultMonthContext: new Date().toISOString()
+        }
+
+        this.daysOnSigleDisplay = 42;
+        this.minimumWeeks = 6;
     }
 
-    clickDelegate(ev: MouseEvent) {
-        const tgt = ev.target as any;
+    clickDelegate(ev) {
+        const tgt = ev.target;
         const cls = tgt.className;
 
         switch (cls) {
@@ -99,12 +84,12 @@ export class WcDatepicker extends HTMLElement {
     }
 
     _refreshDisplay(
-        monthContext: string,
-        selectedDate: string,
-        launcher: HTMLDivElement,
-        htmlDays: HTMLDayElement[],
-        contextDisplay: HTMLSpanElement,
-        options: any
+        monthContext,
+        selectedDate,
+        launcher,
+        htmlDays,
+        contextDisplay,
+        options
     ) {
         if (!monthContext || monthContext === 'null') {
             monthContext = options.defaultMonthContext;
@@ -173,13 +158,11 @@ export class WcDatepicker extends HTMLElement {
             this.launcher = document.createElement('div');
             this.calendarBody = document.createElement('div');
             this.previousMonth = document.createElement('button');
-            //@ts-ignore
             this.contextDisplay = document.createElement('span');
             this.nextMonth = document.createElement('button');
             this.daysContainer = document.createElement('div');
             this.daysOfWeek = Array(7).fill(undefined)
                 .map(_ => document.createElement('span'));
-            //@ts-ignore
             this.days = Array(this.daysOnSigleDisplay).fill(undefined)
                 .map(_ => document.createElement('span'));
             this.save = document.createElement('button');

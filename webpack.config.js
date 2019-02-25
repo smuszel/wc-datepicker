@@ -1,25 +1,20 @@
-const path = require('path');
+const webpack = require('webpack');
+const HtmlPlugin = require('html-webpack-plugin');
 
-const pathTo = {
-    dist: path.resolve('dist'),
-    entry: path.resolve('src', 'main.ts'),
-}
-
+/** @type {webpack.Configuration} */
 module.exports = {
-    entry: pathTo.entry,
-    output: {
-        path: pathTo.dist,
-        filename: 'main.js'
-    },
+
     resolve: {
-        extensions: ['.ts', '.scss', '.js']
+        extensions: ['.js', '.scss']
     },
     module: {
         rules: [
-            { test: /\.ts$/, use: 'ts-loader'},
             { test: /\.scss$/, use: ['style-loader', 'css-loader','sass-loader']}
         ]
     },
-    mode: 'development',
+    plugins: [
+        new webpack.ProgressPlugin(),
+        new HtmlPlugin({ template: './src/index.html'})
+    ],
     devtool: 'source-map'
 }

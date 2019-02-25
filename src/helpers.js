@@ -1,6 +1,6 @@
 import { startOfMonth, addDays, addMonths } from 'date-fns';
 
-export const generateDatesForDaysInMonth = (d, minimumLength: number) => {
+export const generateDatesForDaysInMonth = (d, minimumLength) => {
     const targetMonthStart = startOfMonth(d);
     const start = addDays(targetMonthStart, targetMonthStart.getDay() * - 1);
     const range = Array(minimumLength).fill(0);
