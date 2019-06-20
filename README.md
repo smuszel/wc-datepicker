@@ -1,6 +1,4 @@
-### [Demo](https://smuszel.github.io/wc-datepicker/)
-
-### Motivation
+## Motivation
 
 * Compare development in React and Web Components
 * Gain experience in writing plugins
